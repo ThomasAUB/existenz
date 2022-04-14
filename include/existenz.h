@@ -110,6 +110,48 @@ public:                                                                         
 }
 
 
+namespace exz_tests {
+
+namespace A{
+struct Test1 {
+    void alala() {}
+    static bool hu(int) {return true;}
+    float mMember;
+
+    struct H{
+        static void u(){}
+    };
+};
+
+struct Test2 {
+    struct H{};
+};
+}
+
+MEMBER_FUNCTION(alala);
+
+STATIC_MEMBER_FUNCTION(hu);
+
+//FREE_FUNCTION(boujou);
+
+MEMBER(mMember);
+
+STATIC_MEMBER_FUNCTION(u);
+
+
+///
+
+static_assert(exz::member_function_alala::exists<A::Test1>(), "EXISTENZ");
+static_assert(!exz::member_function_alala::exists<A::Test2>(), "EXISTENZ");
+
+static_assert(exz::static_member_function_hu::exists<A::Test1, bool, int>(), "EXISTENZ");
+static_assert(!exz::static_member_function_hu::exists<A::Test2, bool, int>(), "EXISTENZ");
+
+static_assert(exz::static_member_function_u::exists<A::Test1::H>(), "EXISTENZ");
+static_assert(!exz::static_member_function_u::exists<A::Test2::H>(), "EXISTENZ");
+
+}
+
 
 
 
