@@ -5,21 +5,11 @@
 
 #include <type_traits>
 
-namespace exz {
-
-    struct exz_base {
-    protected:
-        template<typename...>
-        static constexpr std::false_type check(...);
-    };
-
-}
-
 
 // OK
 #define MEMBER_FUNCTION(function_name)                                              \
 namespace exz {                                                                     \
-class member_function_##function_name : exz_base {                                  \
+class member_function_##function_name {                                             \
                                                                                     \
     template<typename ret_t, typename obj_t, typename... args_t>                    \
     static constexpr auto check(obj_t*)                                             \
@@ -30,6 +20,8 @@ class member_function_##function_name : exz_base {                              
                 ret_t                                                               \
         >::type;                                                                    \
                                                                                     \
+        template<typename...>                                                       \
+        static constexpr std::false_type check(...);                                \
 public:                                                                             \
     template<typename obj_t, typename return_t = void, typename... args_t>          \
     static constexpr bool exists() {                                                \
@@ -37,13 +29,13 @@ public:                                                                         
         return type::value;                                                         \
     }                                                                               \
 };                                                                                  \
-}
+}                                                                                   \
 
 
 // OK
 #define STATIC_MEMBER_FUNCTION(function_name)                                       \
 namespace exz {                                                                     \
-class static_member_function_##function_name : exz_base {                           \
+class static_member_function_##function_name {                                      \
                                                                                     \
     template<typename ret_t, typename obj_t, typename... args_t>                    \
     static constexpr auto check(obj_t*)                                             \
@@ -54,6 +46,9 @@ class static_member_function_##function_name : exz_base {                       
                 ret_t                                                               \
         >::type;                                                                    \
                                                                                     \
+    template<typename...>                                                           \
+    static constexpr std::false_type check(...);                                    \
+                                                                                    \
 public:                                                                             \
     template<typename obj_t, typename return_t = void, typename... args_t>          \
     static constexpr bool exists() {                                                \
@@ -61,13 +56,13 @@ public:                                                                         
         return type::value;                                                         \
     }                                                                               \
 };                                                                                  \
-}
+}                                                                                   \
 
 
 // NOK
 #define FREE_FUNCTION(function_name)                                                \
 namespace exz {                                                                     \
-class free_function_##function_name : exz_base {                                    \
+class free_function_##function_name {                                               \
                                                                                     \
     template<typename ret_t, typename... args_t>                                    \
     static constexpr auto check(ret_t(*)(args_t...))                                \
@@ -76,6 +71,9 @@ class free_function_##function_name : exz_base {                                
             decltype(function_name(std::declval<args_t>()...)), ret_t               \
         >::type;                                                                    \
                                                                                     \
+    template<typename...>                                                           \
+    static constexpr std::false_type check(...);                                    \
+                                                                                    \
 public:                                                                             \
     template<typename return_t = void, typename... args_t>                          \
     static constexpr bool exists() {                                                \
@@ -83,13 +81,13 @@ public:                                                                         
         return type::value;                                                         \
     }                                                                               \
 };                                                                                  \
-}
+}                                                                                   \
 
 
 // OK
 #define MEMBER(member_name)                                                         \
 namespace exz {                                                                     \
-class member_##member_name : exz_base {                                             \
+class member_##member_name {                                                        \
                                                                                     \
     template<typename obj_t, typename member_t>                                     \
     static constexpr auto check(obj_t*)                                             \
@@ -100,6 +98,9 @@ class member_##member_name : exz_base {                                         
                 member_t                                                            \
         >::type;                                                                    \
                                                                                     \
+    template<typename...>                                                           \
+    static constexpr std::false_type check(...);                                    \
+                                                                                    \
 public:                                                                             \
     template<typename obj_t, typename member_t>                                     \
     static constexpr bool exists() {                                                \
@@ -107,51 +108,56 @@ public:                                                                         
         return type::value;                                                         \
     }                                                                               \
 };                                                                                  \
-}
+}                                                                                   \
+
+
 
 
 namespace exz_tests {
 
-namespace A{
-struct Test1 {
-    void alala() {}
-    static bool hu(int) {return true;}
-    float mMember;
+    namespace A{
 
-    struct H{
-        static void u(){}
-    };
-};
+        struct Test1 {
+            void alala() {}
+            static bool hu(int) {return true;}
+            float mMember;
 
-struct Test2 {
-    struct H{};
-};
+            struct H{
+                static void u(){}
+            };
+        };
+
+        struct Test2 {
+            struct H{};
+        };
+
+    }
 }
+
+
 
 MEMBER_FUNCTION(alala);
 
 STATIC_MEMBER_FUNCTION(hu);
 
-//FREE_FUNCTION(boujou);
+STATIC_MEMBER_FUNCTION(u);
 
 MEMBER(mMember);
 
-STATIC_MEMBER_FUNCTION(u);
+//FREE_FUNCTION(boujou);
 
 
 ///
 
-static_assert(exz::member_function_alala::exists<A::Test1>(), "EXISTENZ");
-static_assert(!exz::member_function_alala::exists<A::Test2>(), "EXISTENZ");
+static_assert(exz::member_function_alala::exists<exz_tests::A::Test1>(), "EXISTENZ");
+static_assert(!exz::member_function_alala::exists<exz_tests::A::Test2>(), "EXISTENZ");
 
-static_assert(exz::static_member_function_hu::exists<A::Test1, bool, int>(), "EXISTENZ");
-static_assert(!exz::static_member_function_hu::exists<A::Test2, bool, int>(), "EXISTENZ");
+static_assert(exz::static_member_function_hu::exists<exz_tests::A::Test1, bool, int>(), "EXISTENZ");
+static_assert(!exz::static_member_function_hu::exists<exz_tests::A::Test2, bool, int>(), "EXISTENZ");
 
-static_assert(exz::static_member_function_u::exists<A::Test1::H>(), "EXISTENZ");
-static_assert(!exz::static_member_function_u::exists<A::Test2::H>(), "EXISTENZ");
+static_assert(exz::static_member_function_u::exists<exz_tests::A::Test1::H>(), "EXISTENZ");
+static_assert(!exz::static_member_function_u::exists<exz_tests::A::Test2::H>(), "EXISTENZ");
 
-}
-
-
-
+static_assert(exz::member_mMember::exists<exz_tests::A::Test1, float>(), "EXISTENZ");
+static_assert(!exz::member_mMember::exists<exz_tests::A::Test2, float>(), "EXISTENZ");
 
