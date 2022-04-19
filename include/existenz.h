@@ -119,50 +119,47 @@ public:                                                                         
 
 namespace exz_tests {
 
-    MEMBER_FUNCTION(alala);
+    MEMBER_FUNCTION(myMemberFunction);
 
-    STATIC_MEMBER_FUNCTION(hu);
+    STATIC_MEMBER_FUNCTION(myStaticMemberFunction);
 
-    STATIC_MEMBER_FUNCTION(u);
+    MEMBER(myMember);
 
-    MEMBER(mMember);
+    MEMBER(myStaticMember);
 
-    namespace A{
+    namespace A {
 
-        struct Test1 {
+        struct Test {
 
-            void alala() {}
+            void myMemberFunction() {}
 
-            static bool hu(int) {return true;}
+            static bool myStaticMemberFunction(int) {return true;}
 
-            float mMember;
+            float myMember;
 
-            struct H{
-
-                static void u(){}
-
-            };
-        };
-
-        struct Test2 {
-
-            struct H{};
+            static inline bool myStaticMember;
 
         };
 
     }
 
-    static_assert(exz::member_function_alala::exists<A::Test1>(), "EXISTENZ");
-    static_assert(!exz::member_function_alala::exists<A::Test2>(), "EXISTENZ");
+    namespace B {
 
-    static_assert(exz::static_member_function_hu::exists<A::Test1, bool, int>(), "EXISTENZ");
-    static_assert(!exz::static_member_function_hu::exists<A::Test2, bool, int>(), "EXISTENZ");
+        struct Test {};
 
-    static_assert(exz::static_member_function_u::exists<A::Test1::H>(), "EXISTENZ");
-    static_assert(!exz::static_member_function_u::exists<A::Test2::H>(), "EXISTENZ");
+    }
 
-    static_assert(exz::member_mMember::exists<A::Test1, float>(), "EXISTENZ");
-    static_assert(!exz::member_mMember::exists<A::Test2, float>(), "EXISTENZ");
+    static_assert(exz::member_function_myMemberFunction::exists<A::Test>(), "EXISTENZ");
+    static_assert(!exz::member_function_myMemberFunction::exists<B::Test>(), "EXISTENZ");
+
+    static_assert(exz::static_member_function_myStaticMemberFunction::exists<A::Test, bool, int>(), "EXISTENZ");
+    static_assert(!exz::static_member_function_myStaticMemberFunction::exists<B::Test, bool, int>(), "EXISTENZ");
+
+    static_assert(exz::member_myMember::exists<A::Test, float>(), "EXISTENZ");
+    static_assert(!exz::member_myMember::exists<B::Test, float>(), "EXISTENZ");
+
+    static_assert(exz::member_myStaticMember::exists<A::Test, bool>(), "EXISTENZ");
+    static_assert(exz::member_myStaticMember::exists<B::Test, bool>(), "EXISTENZ");
 
 
 }
