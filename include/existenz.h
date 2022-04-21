@@ -1,12 +1,35 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * MIT License                                                                     *
+ *                                                                                 *
+ * Copyright (c) 2022 Thomas AUBERT                                                *
+ *                                                                                 *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy    *
+ * of this software and associated documentation files (the "Software"), to deal   *
+ * in the Software without restriction, including without limitation the rights    *
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell       *
+ * copies of the Software, and to permit persons to whom the Software is           *
+ * furnished to do so, subject to the following conditions:                        *
+ *                                                                                 *
+ * The above copyright notice and this permission notice shall be included in all  *
+ * copies or substantial portions of the Software.                                 *
+ *                                                                                 *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR      *
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,        *
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE     *
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER          *
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,   *
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE   *
+ * SOFTWARE.                                                                       *
+ *                                                                                 *
+ * github : https://github.com/ThomasAUB/existenz                                  *
+ *                                                                                 *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #pragma once
 
-
-//********************************************************************************/
 
 #include <type_traits>
 
 
-// OK
 #define MEMBER_FUNCTION(function_name)                                              \
 namespace exz {                                                                     \
 class member_function_##function_name {                                             \
@@ -32,7 +55,6 @@ public:                                                                         
 }                                                                                   \
 
 
-// OK
 #define STATIC_MEMBER_FUNCTION(function_name)                                       \
 namespace exz {                                                                     \
 class static_member_function_##function_name {                                      \
@@ -58,33 +80,7 @@ public:                                                                         
 };                                                                                  \
 }                                                                                   \
 
-/*
-// NOK
-#define FREE_FUNCTION(function_name)                                                \
-namespace exz {                                                                     \
-class free_function_##function_name {                                               \
-                                                                                    \
-    template<typename ret_t, typename... args_t>                                    \
-    static constexpr auto check(ret_t(*)(args_t...) = &function_name)               \
-    -> typename                                                                     \
-        std::is_same<                                                               \
-            decltype(function_name(std::declval<args_t>()...)), ret_t               \
-        >::type;                                                                    \
-                                                                                    \
-    template<typename...>                                                           \
-    static constexpr std::false_type check(...);                                    \
-                                                                                    \
-public:                                                                             \
-    template<typename return_t = void, typename... args_t>                          \
-    static constexpr bool exists() {                                                \
-        using type = decltype(check<return_t, args_t...>(0));                       \
-        return type::value;                                                         \
-    }                                                                               \
-};                                                                                  \
-}                                                                                   \
-*/
 
-// OK
 #define MEMBER(member_name)                                                         \
 namespace exz {                                                                     \
 class member_##member_name {                                                        \
@@ -109,63 +105,5 @@ public:                                                                         
     }                                                                               \
 };                                                                                  \
 }                                                                                   \
-
-
-
-
-
-
-
-
-namespace exz_tests {
-
-    MEMBER_FUNCTION(myMemberFunction);
-
-    STATIC_MEMBER_FUNCTION(myStaticMemberFunction);
-
-    MEMBER(myMember);
-
-    MEMBER(myStaticMember);
-
-    namespace A {
-
-        struct Test {
-
-            void myMemberFunction() {}
-
-            static bool myStaticMemberFunction(int) {return true;}
-
-            float myMember;
-
-            static inline bool myStaticMember;
-
-        };
-
-    }
-
-    namespace B {
-
-        struct Test {};
-
-    }
-
-    static_assert(exz::member_function_myMemberFunction::exists<A::Test>(), "EXISTENZ");
-    static_assert(!exz::member_function_myMemberFunction::exists<B::Test>(), "EXISTENZ");
-
-    static_assert(exz::static_member_function_myStaticMemberFunction::exists<A::Test, bool, int>(), "EXISTENZ");
-    static_assert(!exz::static_member_function_myStaticMemberFunction::exists<B::Test, bool, int>(), "EXISTENZ");
-
-    static_assert(exz::member_myMember::exists<A::Test, float>(), "EXISTENZ");
-    static_assert(!exz::member_myMember::exists<B::Test, float>(), "EXISTENZ");
-
-    static_assert(exz::member_myStaticMember::exists<A::Test, bool>(), "EXISTENZ");
-    static_assert(exz::member_myStaticMember::exists<B::Test, bool>(), "EXISTENZ");
-
-
-}
-
-
-
-///
 
 
