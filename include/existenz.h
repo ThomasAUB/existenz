@@ -43,9 +43,11 @@ class member_function_##function_name {                                         
                 ret_t                                                               \
         >::type;                                                                    \
                                                                                     \
-        template<typename...>                                                       \
-        static constexpr std::false_type check(...);                                \
+    template<typename...>                                                           \
+    static constexpr std::false_type check(...);                                    \
+                                                                                    \
 public:                                                                             \
+                                                                                    \
     template<typename obj_t, typename return_t = void, typename... args_t>          \
     static constexpr bool exists() {                                                \
         using type = decltype(check<return_t, obj_t, args_t...>(0));                \
@@ -72,6 +74,7 @@ class static_member_function_##function_name {                                  
     static constexpr std::false_type check(...);                                    \
                                                                                     \
 public:                                                                             \
+                                                                                    \
     template<typename obj_t, typename return_t = void, typename... args_t>          \
     static constexpr bool exists() {                                                \
         using type = decltype(check<return_t, obj_t, args_t...>(0));                \
@@ -98,6 +101,7 @@ class member_##member_name {                                                    
     static constexpr std::false_type check(...);                                    \
                                                                                     \
 public:                                                                             \
+                                                                                    \
     template<typename obj_t, typename member_t>                                     \
     static constexpr bool exists() {                                                \
         using type = decltype(check<obj_t, member_t>(0));                           \
