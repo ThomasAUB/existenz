@@ -20,7 +20,11 @@ struct A {
 };
 
 
+
+// declare existenz checking class
 STATIC_MEMBER_FUNCTION(isPositive);
+
+
 
 struct B {
 
@@ -37,6 +41,8 @@ struct B {
     
   }
 };
+
+
 
 // compile-time check
 static_assert( exz::static_member_function_isPositive::exists(A, bool, int), "bool A::isPositive)(int){} doesn't exist");
