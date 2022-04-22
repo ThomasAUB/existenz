@@ -45,7 +45,9 @@ struct B {
 
 
 // compile-time assert
-static_assert( exz::static_member_function_isPositive::exists(A, bool, int), "bool A::isPositive)(int){} doesn't exist");
+static_assert( 
+  exz::static_member_function_isPositive::exists(A, bool, int), 
+  "bool A::isPositive)(int){} doesn't exist");
 
 
 ```
