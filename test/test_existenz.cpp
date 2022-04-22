@@ -59,7 +59,7 @@ static_assert(exz::member_myMember::exists<A::Test, float>(), "EXISTENZ");
 static_assert(!exz::member_myMember::exists<B::Test, float>(), "EXISTENZ");
 
 static_assert(exz::member_myStaticMember::exists<A::Test, bool>(), "EXISTENZ");
-static_assert(exz::member_myStaticMember::exists<B::Test, bool>(), "EXISTENZ");
+static_assert(!exz::member_myStaticMember::exists<B::Test, bool>(), "EXISTENZ");
 
 
 bool A::Test::myStaticMember = true;
