@@ -30,8 +30,8 @@ struct B {
 
   B(int i) {
   
-    // run-time check : if "bool A::isPositive)(int){}" exists
-    if( exz::static_member_function_isPositive::exists(A, bool, int) ) { 
+    // if "bool A::isPositive)(int){}" exists
+    if constexpr ( exz::static_member_function_isPositive::exists(A, bool, int) ) { 
       
       if(A::isPositive(i)) {
         // ...
@@ -44,7 +44,8 @@ struct B {
 
 
 
-// compile-time check
+// compile-time assert
 static_assert( exz::static_member_function_isPositive::exists(A, bool, int), "bool A::isPositive)(int){} doesn't exist");
+
 
 ```
