@@ -11,6 +11,8 @@ Works with member functions, static members function, members and static members
 
 ## Exemple
 
+```cpp
+
 struct A {
   static bool isPositive(int i) { 
     return (i > 0);
@@ -24,7 +26,8 @@ struct B {
 
   B(int i) {
   
-    if constexpr( exz::static_member_function_isPositive::exists(A, bool, int) ) {
+    // run-time check : if "bool A::isPositive)(int){}" exists
+    if( exz::static_member_function_isPositive::exists(A, bool, int) ) { 
       
       if(A::isPositive(i)) {
         // ...
@@ -33,4 +36,9 @@ struct B {
     }
     
   }
-}
+};
+
+// compile-time check
+static_assert( exz::static_member_function_isPositive::exists(A, bool, int), "bool A::isPositive)(int){} doesn't exist");
+
+```
