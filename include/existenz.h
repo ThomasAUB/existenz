@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE   *
  * SOFTWARE.                                                                       *
  *                                                                                 *
- * github : https://github.com/ThomasAUB/existenz                                  *
+ * github : https://github.com/ThomasAUB/Existenz                                  *
  *                                                                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #pragma once
