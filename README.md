@@ -13,6 +13,7 @@ Works with member functions, static member functions, members and static members
 
 ```cpp
 
+// generate a "exz::static_member_function_call" class
 STATIC_MEMBER_FUNCTION(call);
 
 struct B {
