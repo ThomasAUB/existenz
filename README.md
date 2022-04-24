@@ -13,39 +13,37 @@ Works with member functions, static member functions, members and static members
 
 ```cpp
 
-struct A {
-    static bool isPositive(int i) { 
-        return (i > 0);
-    }
-};
-
-
-
-// declare existenz checking class
-STATIC_MEMBER_FUNCTION(isPositive);
-
-
+STATIC_MEMBER_FUNCTION(call);
 
 struct B {
-
-    B(int i) {
-  
-        // if "bool A::isPositive)(int){}" exists
-        if constexpr ( exz::static_member_function_isPositive::exists<A, bool, int>() ) { 
-      
-            if(A::isPositive(i)) {
-                // ...
-            } 
-        }
+    static void call() {
+        // ...
     }
 };
 
+struct C {};
+
+template<typename... T>
+struct A {
+
+    A() {
+        (call<T>(), ...);
+    }
+
+    template<typename _T>
+    void call() {
+
+        // test if type contains a "static void call()" function
+        if constexpr (exz::static_member_function_call::exists<_T, void, void>()) {
+            _T::call();
+        }
+
+    }
+
+};
 
 
-// compile-time assert
-static_assert( 
-    exz::static_member_function_isPositive::exists<A, bool, int>(), 
-    "bool A::isPositive)(int){} doesn't exist");
+A<B, C> sA;
 
 
 ```
