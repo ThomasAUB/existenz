@@ -9,7 +9,7 @@ Single header file providing compile-time checks of existence of members.
 Works with member functions, static member functions, members and static members.
 
 
-## Exemple
+## Example
 
 ```cpp
 
