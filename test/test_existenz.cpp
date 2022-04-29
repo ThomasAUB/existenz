@@ -51,6 +51,8 @@ namespace A {
             return false;
         }
 
+        void operator()() {}
+
         void myMemberFunction() {}
 
         static bool myStaticMemberFunction(int) {return true;}
@@ -96,6 +98,9 @@ static_assert(!exz::op::inferior_equal::exists<B::Test>(), "EXISTENZ");
 
 static_assert(exz::op::equal::exists<A::Test>(), "EXISTENZ");
 static_assert(!exz::op::equal::exists<B::Test>(), "EXISTENZ");
+
+static_assert(exz::op::parenthesis::exists<A::Test>(), "EXISTENZ");
+static_assert(!exz::op::parenthesis::exists<B::Test>(), "EXISTENZ");
 
 bool A::Test::myStaticMember = true;
 
