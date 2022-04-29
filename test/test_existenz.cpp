@@ -78,17 +78,18 @@ static_assert(exz::member_myStaticMember::exists<A::Test, bool>(), "EXISTENZ");
 static_assert(!exz::member_myStaticMember::exists<B::Test, bool>(), "EXISTENZ");
 
 
-static_assert(exz::op::superior<A::Test>(), "EXISTENZ");
-static_assert(!exz::op::superior<B::Test>(), "EXISTENZ");
+static_assert(exz::op::superior::exists<A::Test>(), "EXISTENZ");
+static_assert(!exz::op::superior::exists<B::Test>(), "EXISTENZ");
 
-static_assert(exz::op::inferior<A::Test>(), "EXISTENZ");
-static_assert(!exz::op::inferior<B::Test>(), "EXISTENZ");
+static_assert(exz::op::inferior::exists<A::Test>(), "EXISTENZ");
+static_assert(!exz::op::inferior::exists<B::Test>(), "EXISTENZ");
 
-static_assert(exz::op::superior_equal<A::Test>(), "EXISTENZ");
-static_assert(!exz::op::superior_equal<B::Test>(), "EXISTENZ");
+static_assert(exz::op::superior_equal::exists<A::Test>(), "EXISTENZ");
+static_assert(!exz::op::superior_equal::exists<B::Test>(), "EXISTENZ");
 
-static_assert(exz::op::inferior_equal<A::Test>(), "EXISTENZ");
-static_assert(!exz::op::inferior_equal<B::Test>(), "EXISTENZ");
+static_assert(exz::op::inferior_equal::exists<A::Test>(), "EXISTENZ");
+static_assert(!exz::op::inferior_equal::exists<B::Test>(), "EXISTENZ");
+
 
 bool A::Test::myStaticMember = true;
 
