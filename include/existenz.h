@@ -111,3 +111,131 @@ public:                                                                         
 }                                                                                   \
 
 
+
+
+namespace exz::op {
+class parenthesis {
+
+    template<typename ret_t, typename obj_t, typename... args_t>
+    static constexpr auto check(obj_t*)
+    -> typename
+        std::is_same<
+            decltype(
+                std::declval<obj_t>()(std::declval<args_t>()...)),
+                ret_t
+        >::type;
+
+    template<typename...>
+    static constexpr std::false_type check(...);
+
+public:
+
+    template<typename obj_t, typename return_t = void, typename... args_t>
+    static constexpr bool exists() {
+        using type = decltype(check<return_t, obj_t, args_t...>(0));
+        return type::value;
+    }
+};
+}
+
+namespace exz::op {
+class inferior {
+
+    template<typename obj_t, typename ret_t>
+    static constexpr auto check(obj_t*)
+    -> typename
+        std::is_same<
+            decltype(
+                (std::declval<obj_t>() < std::declval<obj_t>())),
+                ret_t
+        >::type;
+
+    template<typename...>
+    static constexpr std::false_type check(...);
+
+public:
+
+    template<typename obj_t, typename return_t = bool>
+    static constexpr bool exists() {
+        using type = decltype(check<obj_t, return_t>(0));
+        return type::value;
+    }
+};
+}
+
+namespace exz::op {
+class superior {
+
+    template<typename obj_t, typename ret_t>
+    static constexpr auto check(obj_t*)
+    -> typename
+        std::is_same<
+            decltype(
+                (std::declval<obj_t>() > std::declval<obj_t>())),
+                ret_t
+        >::type;
+
+    template<typename...>
+    static constexpr std::false_type check(...);
+
+public:
+
+    template<typename obj_t, typename return_t = bool>
+    static constexpr bool exists() {
+        using type = decltype(check<obj_t, return_t>(0));
+        return type::value;
+    }
+};
+}
+
+namespace exz::op {
+class superior_equal {
+
+    template<typename obj_t, typename ret_t>
+    static constexpr auto check(obj_t*)
+    -> typename
+        std::is_same<
+            decltype(
+                (std::declval<obj_t>() >= std::declval<obj_t>())),
+                ret_t
+        >::type;
+
+    template<typename...>
+    static constexpr std::false_type check(...);
+
+public:
+
+    template<typename obj_t, typename return_t = bool>
+    static constexpr bool exists() {
+        using type = decltype(check<obj_t, return_t>(0));
+        return type::value;
+    }
+};
+}
+
+namespace exz::op {
+class inferior_equal {
+
+    template<typename obj_t, typename ret_t>
+    static constexpr auto check(obj_t*)
+    -> typename
+        std::is_same<
+            decltype(
+                (std::declval<obj_t>() <= std::declval<obj_t>())),
+                ret_t
+        >::type;
+
+    template<typename...>
+    static constexpr std::false_type check(...);
+
+public:
+
+    template<typename obj_t, typename return_t = bool>
+    static constexpr bool exists() {
+        using type = decltype(check<obj_t, return_t>(0));
+        return type::value;
+    }
+};
+}
+
+
