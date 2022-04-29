@@ -31,19 +31,19 @@ namespace A {
 
     struct Test {
         
-        bool operator>(A) {
+        bool operator>(Test) {
             return false;
         }
         
-        bool operator<(A) {
+        bool operator<(Test) {
             return false;
         }
         
-        bool operator>=(A) {
+        bool operator>=(Test) {
             return false;
         }
         
-        bool operator<=(A) {
+        bool operator<=(Test) {
             return false;
         }
 
