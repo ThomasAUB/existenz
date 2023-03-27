@@ -27,6 +27,8 @@ MEMBER(myMember);
 
 MEMBER(myStaticMember);
 
+NESTED_TYPE(MyType)
+
 namespace A {
 
     struct Test {
@@ -60,6 +62,8 @@ namespace A {
         float myMember;
 
         static bool myStaticMember;
+
+        struct MyType {};
 
     };
 
@@ -101,6 +105,9 @@ static_assert(!exz::op::equal::exists<B::Test>(), "EXISTENZ");
 
 static_assert(exz::op::parenthesis::exists<A::Test>(), "EXISTENZ");
 static_assert(!exz::op::parenthesis::exists<B::Test>(), "EXISTENZ");
+
+static_assert(exz::nested_type_MyType::exists<A::Test>(), "EXISTENZ");
+static_assert(!exz::nested_type_MyType::exists<B::Test>(), "EXISTENZ");
 
 bool A::Test::myStaticMember = true;
 
