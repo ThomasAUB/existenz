@@ -112,25 +112,23 @@ public:                                                                         
 
 
 
-#define NESTED_TYPE(type_name)                                                      \
-namespace exz {                                                                     \
-class nested_type_##type_name {                                                     \
-                                                                                    \
-    template<typename T, typename = void >                                          \
-    struct type_exists : std::false_type {                                          \
-    };                                                                              \
-                                                                                    \
-    template<typename T>                                                            \
-    struct type_exists<T, std::void_t<typename T::type_name>> : std::true_type {    \
-    };                                                                              \
-                                                                                    \
-public:                                                                             \
-    template<typename input_t>                                                      \
-    static constexpr bool  exists() {                                               \
-        return type_exists<input_t>::value;                                         \
-    }                                                                               \
-};                                                                                  \
-}                                                                                   \
+#define TYPE(type_name, real_type)                                \
+    namespace exz {                                               \
+    class type_##type_name {                                      \
+        template <typename T, typename = void>                    \
+        struct type_exists : std::false_type {};                  \
+                                                                  \
+        template <typename T>                                     \
+        struct type_exists<T, std::void_t<typename T::real_type>> \
+            : std::true_type {};                                  \
+                                                                  \
+       public:                                                    \
+        template <typename input_t>                               \
+        static constexpr bool exists() {                          \
+            return type_exists<input_t>::value;                   \
+        }                                                         \
+    };                                                            \
+}
 
 
 

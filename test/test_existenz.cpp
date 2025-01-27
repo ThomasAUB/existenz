@@ -27,7 +27,8 @@ MEMBER(myMember);
 
 MEMBER(myStaticMember);
 
-NESTED_TYPE(MyType)
+TYPE(MyType, MyType)
+TYPE(MyTypeMySubType, MyType::MySubType)
 
 namespace A {
 
@@ -106,8 +107,10 @@ static_assert(!exz::op::equal::exists<B::Test>(), "EXISTENZ");
 static_assert(exz::op::parenthesis::exists<A::Test>(), "EXISTENZ");
 static_assert(!exz::op::parenthesis::exists<B::Test>(), "EXISTENZ");
 
-static_assert(exz::nested_type_MyType::exists<A::Test>(), "EXISTENZ");
-static_assert(!exz::nested_type_MyType::exists<B::Test>(), "EXISTENZ");
+static_assert(exz::type_MyTypeMySubType::exists<A::Test>(), "EXISTENZ");
+static_assert(exz::type_MyType::exists<A::Test>(), "EXISTENZ");
+static_assert(!exz::type_MyTypeMySubType::exists<B::Test>(), "EXISTENZ");
+static_assert(!exz::type_MyType::exists<B::Test>(), "EXISTENZ");
 
 bool A::Test::myStaticMember = true;
 
