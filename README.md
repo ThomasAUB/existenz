@@ -1,5 +1,7 @@
-[![Build Status](https://app.travis-ci.com/ThomasAUB/existenz.svg?branch=main)](https://travis-ci.com/ThomasAUB/existenz)
-[![License](https://img.shields.io/github/license/ThomasAUB/Existenz.svg)](LICENSE)
+![build status](https://github.com/ThomasAUB/existenz/actions/workflows/build.yml/badge.svg)
+![license](https://img.shields.io/github/license/ThomasAUB/Existenz.svg)
+
+
 
 # Existenz
 
