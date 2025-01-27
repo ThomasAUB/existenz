@@ -74,7 +74,7 @@ struct A {
     template<typename _T>
     void call() {
 
-        // test if type contains a "static void call()" function
+        // test if type contains a "static bool call(int, float, char)" function
         if constexpr (
             exz::static_member_function_call::exists<
                 _T, // class type
