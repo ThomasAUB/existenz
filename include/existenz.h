@@ -111,6 +111,21 @@ public:                                                                         
 }                                                                                   \
 
 
+#define NESTED_TYPE(type_name)                                                      \
+namespace exz {                                                                     \
+class nested_type_##type_name {                                                     \
+    template <typename T, typename = void>                                          \
+    struct check : std::false_type {};                                              \
+    template <typename T>                                                           \
+    struct check<T, std::void_t<typename T::type_name>> : std::true_type {};        \
+                                                                                    \
+public:                                                                             \
+    template <typename T>                                                           \
+    static constexpr bool exists() {                                                \
+        return check<T>::value;                                                     \
+    }                                                                               \
+};                                                                                  \
+}
 
 
 namespace exz::op {

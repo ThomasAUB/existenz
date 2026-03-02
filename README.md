@@ -40,6 +40,20 @@ constexpr bool result = exz::member_function_someFunction::exists<
 >();
 ```
 
+## Nested type detection
+
+```cpp
+// macro generating a "exz::nested_type_MyType" class
+NESTED_TYPE(MyType)
+
+// true if the class SomeClassName defines a nested type
+// called MyType
+// false otherwise
+constexpr bool result = exz::nested_type_MyType::exists<
+    SomeClassName // type of the class
+>();
+```
+
 ## Operator detection
 ```cpp
 // no need for generation macro for operators detection
